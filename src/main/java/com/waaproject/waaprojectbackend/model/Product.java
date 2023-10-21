@@ -19,16 +19,23 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(nullable = false)
     @NotBlank(message = "title is required")
     private String title;
-    @Column(nullable = false)
-    @NotNull(message = "price is required")
-    private double price;
+    private String description;
+    private boolean isRelease;
+
+    @ManyToMany
+    @JoinTable(name = "category_product",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categories;
 
     @ManyToOne
     private Seller seller;
-    @ManyToMany
-    @JoinTable(name = "category_product")
-    private List<Category> categories;
+
+    @OneToOne
+    private Auction auction;
+
 }

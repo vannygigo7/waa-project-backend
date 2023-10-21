@@ -9,7 +9,4 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("customer")
 public class Customer extends User{
-
-    @ManyToMany
-    private List<Auction> auctions;
 }
