@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
                         .requestMatchers("/api/test").hasAnyRole(Role.USER.getName(), Role.SELLER.getName())
                         .requestMatchers("/user/api/**").hasRole(Role.USER.getName())
                         .requestMatchers("/seller/api/**").hasRole(Role.SELLER.getName())

@@ -3,12 +3,14 @@ package com.waaproject.waaprojectbackend.service.impl;
 import com.waaproject.waaprojectbackend.constant.Role;
 import com.waaproject.waaprojectbackend.dto.request.UserRequest;
 import com.waaproject.waaprojectbackend.dto.response.UserResponse;
+import com.waaproject.waaprojectbackend.exception.DuplicatedUserException;
 import com.waaproject.waaprojectbackend.model.Customer;
 import com.waaproject.waaprojectbackend.model.Seller;
 import com.waaproject.waaprojectbackend.repository.UserRepository;
 import com.waaproject.waaprojectbackend.service.RoleService;
 import com.waaproject.waaprojectbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +41,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return userRepository.save(user);
+
+        try {
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw new DuplicatedUserException("Duplicated user");
+        }
+
     }
 
     @Override
