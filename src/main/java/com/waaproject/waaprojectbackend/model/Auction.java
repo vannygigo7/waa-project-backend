@@ -22,12 +22,12 @@ public class Auction {
 
     private double startPrice;
     private double depositAmount;
-    private double highestPrice;
+    private double highestBid;
 
     private LocalDateTime bidDueDateTime;
     private LocalDate payDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "auction_id")
     private List<Bid> bids;
 }

@@ -1,14 +1,12 @@
 package com.waaproject.waaprojectbackend.service.impl;
 
 import com.waaproject.waaprojectbackend.dto.ProductDTO;
+import com.waaproject.waaprojectbackend.dto.request.BidRequest;
 import com.waaproject.waaprojectbackend.dto.request.ProductRequest;
 import com.waaproject.waaprojectbackend.dto.response.ProductResponse;
 import com.waaproject.waaprojectbackend.exception.GenericException;
 import com.waaproject.waaprojectbackend.exception.NotFoundException;
-import com.waaproject.waaprojectbackend.model.Auction;
-import com.waaproject.waaprojectbackend.model.Category;
-import com.waaproject.waaprojectbackend.model.Product;
-import com.waaproject.waaprojectbackend.model.Seller;
+import com.waaproject.waaprojectbackend.model.*;
 import com.waaproject.waaprojectbackend.repository.CategoryRepository;
 import com.waaproject.waaprojectbackend.repository.ProductRepository;
 import com.waaproject.waaprojectbackend.repository.UserRepository;
@@ -34,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
             Auction auction = Auction.builder()
                     .startPrice(productRequest.getStartPrice())
                     .depositAmount(productRequest.getDepositAmount())
-                    .highestPrice(productRequest.getStartPrice())
+                    .highestBid(productRequest.getStartPrice())
                     .bidDueDateTime(productRequest.getBidDueDateTime())
                     .payDate(productRequest.getPayDate())
                     .bids(new ArrayList<>()).build();
@@ -70,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getAllProductsByCustomer(long customerId) {
-        return null;
+        return ProductDTO.getProductResponses(productRepository.findProductsByAuctionBidsCustomerId(customerId));
     }
 
     @Override
@@ -91,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
                 Auction auction = oldProduct.getAuction();
                 auction.setStartPrice(updatedProductRequest.getStartPrice());
                 auction.setDepositAmount(updatedProductRequest.getDepositAmount());
-                auction.setHighestPrice(updatedProductRequest.getStartPrice());
+                auction.setHighestBid(updatedProductRequest.getStartPrice());
                 auction.setBidDueDateTime(updatedProductRequest.getBidDueDateTime());
                 auction.setPayDate(updatedProductRequest.getPayDate());
 
@@ -126,6 +124,47 @@ public class ProductServiceImpl implements ProductService {
                 return ProductDTO.getProductResponse(oldProduct);
             } else {
                 throw new GenericException("Try to delete unreleased product");
+            }
+        } catch (NotFoundException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public ProductResponse bidProduct(long customerId, long productId, BidRequest bidRequest) {
+        try {
+            Customer customer = (Customer) userRepository.findById(customerId).orElseThrow(() -> new NotFoundException("Customer " + customerId + " not found"));
+            Wallet wallet = customer.getWallet();
+            Product product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException(("Product " + productId + " not found")));
+            Auction auction = product.getAuction();
+
+            //check conditions for bidding eligibility
+            if (!product.isReleased()) {
+                throw new GenericException("Try to bid an unreleased product");
+            } else if (product.getSeller().getId() == customerId) {
+                throw new GenericException("Seller cannot bid their own product");
+            } else if (bidRequest.getBidDateTime().isAfter(auction.getBidDueDateTime())) {
+                throw new GenericException("Cannot bid after due date");
+            } else if (bidRequest.getBidAmount() <= auction.getHighestBid()) {
+                throw new GenericException("Bid amount must be higher than current highest amount");
+            } else if (wallet.getBalance() < auction.getDepositAmount()) {
+                throw new GenericException("Not enough balance to bid");
+            } else {
+                //deposit the depositAmount
+                wallet.setBlockedBalance(wallet.getBlockedBalance() + auction.getDepositAmount());
+                wallet.setBalance(wallet.getBalance() - auction.getDepositAmount());
+                userRepository.save(customer);
+
+                //set highestBid
+                auction.setHighestBid(bidRequest.getBidAmount());
+
+                //create a new bid
+                List<Bid> bids = auction.getBids();
+                bids.add(Bid.builder()
+                        .bidAmount(bidRequest.getBidAmount())
+                        .bidDateTime(bidRequest.getBidDateTime())
+                        .customer(customer).build());
+                return ProductDTO.getProductResponse(productRepository.save(product));
             }
         } catch (NotFoundException e) {
             throw e;

@@ -1,0 +1,10 @@
+### get all auctioning products
+GET http://localhost:8080/api/v1/products
+
+
+### get all auctioning products search by name
+GET http://localhost:8080/api/v1/products?name=iPhone
+
+
+### get product by id
+GET http://localhost:8080/api/v1/products/1
