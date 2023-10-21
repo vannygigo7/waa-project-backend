@@ -1,10 +1,8 @@
 package com.waaproject.waaprojectbackend;
 
 import com.waaproject.waaprojectbackend.constant.Profile;
-import com.waaproject.waaprojectbackend.model.Customer;
-import com.waaproject.waaprojectbackend.model.Role;
-import com.waaproject.waaprojectbackend.model.Seller;
-import com.waaproject.waaprojectbackend.model.User;
+import com.waaproject.waaprojectbackend.model.*;
+import com.waaproject.waaprojectbackend.repository.CategoryRepository;
 import com.waaproject.waaprojectbackend.service.RoleService;
 import com.waaproject.waaprojectbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,8 @@ public class MyCommandLineRunner implements CommandLineRunner {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -58,6 +58,13 @@ public class MyCommandLineRunner implements CommandLineRunner {
         seller.setRoles(Set.of(sellerRole));
         userService.save(seller);
 
+        Category phone = new Category();
+        phone.setName("phone");
+        categoryRepository.save(phone);
+
+        Category iPhone = new Category();
+        iPhone.setName("iPhone");
+        categoryRepository.save(iPhone);
     }
 
 }

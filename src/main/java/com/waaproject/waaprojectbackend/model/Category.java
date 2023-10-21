@@ -14,7 +14,9 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+
+    @Column(unique = true, nullable = false)
     @NotBlank(message = "name is required")
     private String name;
+
 }

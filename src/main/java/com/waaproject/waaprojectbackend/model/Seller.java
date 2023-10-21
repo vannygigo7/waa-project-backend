@@ -6,5 +6,4 @@ import jakarta.persistence.Entity;
 @Entity
 @DiscriminatorValue("seller")
 public class Seller extends User {
-
 }

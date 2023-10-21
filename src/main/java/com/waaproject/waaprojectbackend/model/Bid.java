@@ -15,9 +15,10 @@ public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private double amount;
-    private double depositAmount;
-    private LocalDateTime dateTime;
+
+    private double bidAmount;
+    private LocalDateTime bidDateTime;
+
     @ManyToOne
     private Customer customer;
 }

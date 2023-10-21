@@ -1,0 +1,134 @@
+package com.waaproject.waaprojectbackend.service.impl;
+
+import com.waaproject.waaprojectbackend.dto.ProductDTO;
+import com.waaproject.waaprojectbackend.dto.request.ProductRequest;
+import com.waaproject.waaprojectbackend.dto.response.ProductResponse;
+import com.waaproject.waaprojectbackend.exception.GenericException;
+import com.waaproject.waaprojectbackend.exception.NotFoundException;
+import com.waaproject.waaprojectbackend.model.Auction;
+import com.waaproject.waaprojectbackend.model.Category;
+import com.waaproject.waaprojectbackend.model.Product;
+import com.waaproject.waaprojectbackend.model.Seller;
+import com.waaproject.waaprojectbackend.repository.CategoryRepository;
+import com.waaproject.waaprojectbackend.repository.ProductRepository;
+import com.waaproject.waaprojectbackend.repository.UserRepository;
+import com.waaproject.waaprojectbackend.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ProductServiceImpl implements ProductService {
+
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+
+    @Override
+    public ProductResponse addNewProduct(long sellerId, ProductRequest productRequest) {
+        try {
+            Seller seller = (Seller) userRepository.findById(sellerId).orElseThrow(() -> new NotFoundException("Seller " + sellerId + " not found"));
+            Auction auction = Auction.builder()
+                    .startPrice(productRequest.getStartPrice())
+                    .depositAmount(productRequest.getDepositAmount())
+                    .highestPrice(productRequest.getStartPrice())
+                    .bidDueDateTime(productRequest.getBidDueDateTime())
+                    .payDate(productRequest.getPayDate())
+                    .bids(new ArrayList<>()).build();
+            List<Category> categories = productRequest.getCategories().stream()
+                    .map(category -> categoryRepository.findByName(category.getName()))
+                    .toList();
+            Product newProduct = Product.builder()
+                    .title(productRequest.getTitle())
+                    .description(productRequest.getDescription())
+                    .released(productRequest.isReleased())
+                    .categories(categories)
+                    .seller(seller)
+                    .auction(auction).build();
+            return ProductDTO.getProductResponse(productRepository.save(newProduct));
+        } catch (NotFoundException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public List<ProductResponse> getAllAuctioningProducts(String name) {
+        if (name != null && name.isEmpty()) {
+            return ProductDTO.getProductResponses(productRepository.findProductsByTitleContaining(name));
+        } else {
+            return ProductDTO.getProductResponses(productRepository.findProductsByReleased(true));
+        }
+    }
+
+    @Override
+    public List<ProductResponse> getAllProductsBySeller(long sellerId, boolean released) {
+        return ProductDTO.getProductResponses(productRepository.findProductsByReleasedAndSellerId(released, sellerId));
+    }
+
+    @Override
+    public List<ProductResponse> getAllProductsByCustomer(long customerId) {
+        return null;
+    }
+
+    @Override
+    public ProductResponse getProductById(long productId) {
+        try {
+            return ProductDTO.getProductResponse(productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product " + productId + " not found")));
+        } catch (NotFoundException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public ProductResponse updateUnreleasedProductByIdBySeller(long sellerId, long productId, ProductRequest updatedProductRequest) {
+        try {
+            Product oldProduct = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product " + productId + " not found"));
+            System.out.println(oldProduct);
+            if (!oldProduct.isReleased() && oldProduct.getSeller().getId() == sellerId) {
+                Auction auction = oldProduct.getAuction();
+                auction.setStartPrice(updatedProductRequest.getStartPrice());
+                auction.setDepositAmount(updatedProductRequest.getDepositAmount());
+                auction.setHighestPrice(updatedProductRequest.getStartPrice());
+                auction.setBidDueDateTime(updatedProductRequest.getBidDueDateTime());
+                auction.setPayDate(updatedProductRequest.getPayDate());
+
+                List<Category> categories = updatedProductRequest.getCategories().stream()
+                        .map(category -> categoryRepository.findByName(category.getName()))
+                        .toList();
+
+                oldProduct.setTitle(updatedProductRequest.getTitle());
+                oldProduct.setDescription(updatedProductRequest.getDescription());
+                oldProduct.setReleased(updatedProductRequest.isReleased());
+//                oldProduct.setCategories(categories); //setCategories causes ImmutableCollection error
+                System.out.println("new product");
+                System.out.println(oldProduct);
+                return ProductDTO.getProductResponse(productRepository.save(oldProduct));
+            } else {
+                throw new GenericException("Try to update unreleased product");
+            }
+        } catch (NotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public ProductResponse deleteUnreleasedProductByIdBySeller(long sellerId, long productId) {
+        try {
+            Product oldProduct = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product " + productId + " not found"));
+            if (!oldProduct.isReleased() && oldProduct.getSeller().getId() == sellerId) {
+                productRepository.deleteById(productId);
+                return ProductDTO.getProductResponse(oldProduct);
+            } else {
+                throw new GenericException("Try to delete unreleased product");
+            }
+        } catch (NotFoundException e) {
+            throw e;
+        }
+    }
+}

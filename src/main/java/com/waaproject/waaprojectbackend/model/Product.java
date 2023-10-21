@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,16 +20,23 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(nullable = false)
     @NotBlank(message = "title is required")
     private String title;
-    @Column(nullable = false)
-    @NotNull(message = "price is required")
-    private double price;
+    private String description;
+    private boolean released;
 
-    @ManyToOne
-    private Seller seller;
-    @ManyToMany
-    @JoinTable(name = "category_product")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "category_product",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Seller seller;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Auction auction;
+
 }

@@ -1,0 +1,49 @@
+### add new product
+POST http://localhost:8080/api/v1/sellers/2/products
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk3OTIwNTYyLCJleHAiOjE2OTc5MjQxNjIsInJvbGUiOiJTRUxMRVIifQ.M1-A5P9aQHPWkgaS6jr2zBwPpjRtJRu0hqB9O3Vc-mI3_Nje-GLR8WxErUoUJJMIAxzA9wRbj_Za5LB7Um8pYQ
+Content-Type: application/json
+
+{
+  "title": "iPhone 14 pro max",
+  "description": "good condition",
+  "categories": [
+    {"name": "phone"},
+    {"name":  "iphone"}
+  ],
+  "released": false,
+  "startPrice": 599,
+  "depositAmount": 59.9,
+  "bidDueDateTime": "2023-10-22T13:56:39.492",
+  "payDate": "2023-10-23"
+}
+
+
+### get all released products by seller id
+GET http://localhost:8080/api/v1/sellers/2/products?released=true
+
+
+
+### get all unreleased products by seller id
+GET http://localhost:8080/api/v1/sellers/2/products?released=false
+
+
+### update an unreleased product
+PUT http://localhost:8080/api/v1/sellers/2/products/1
+Content-Type: application/json
+
+{
+  "title": "iPhone 14 pro max",
+  "description": "good condition",
+  "categories": [
+    {"name":  "iphone"}
+  ],
+  "released": false,
+  "startPrice": 499,
+  "depositAmount": 50,
+  "bidDueDateTime": "2023-10-22T13:56:39.492",
+  "payDate": "2023-10-25"
+}
+
+
+### delete an unreleased product
+DELETE http://localhost:8080/api/v1/sellers/2/products/1

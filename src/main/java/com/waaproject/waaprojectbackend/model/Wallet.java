@@ -13,10 +13,9 @@ public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private double balance;
-//    1000 - 100 = 900; 900 -200 = 700
-    private double blockBalance;
-//    100 + 200
+    private double blockedBalance;
 
     @OneToOne
     private User user;
