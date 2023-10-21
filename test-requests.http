@@ -1,0 +1,47 @@
+POST localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "email": "user1@example.com",
+  "password": "password",
+  "role": "USER"
+}
+
+###
+
+POST localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "email": "seller1@example.com",
+  "password": "password",
+  "role": "USER"
+}
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@example.com",
+  "password": "password"
+}
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "seller1@example.com",
+  "password": "password"
+}
+
+### User 1
+GET localhost:8080/api/test
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTY5Nzg1ODY0MywiZXhwIjoxNjk3ODYyMjQzLCJyb2xlIjoiVVNFUiJ9.bZNdO47k0uaUUQOBku2sZk9CfEv1smOM2GwtLN_Cb-9rT-f_p-LhbhDlkzLhZOsjy-3LdqBe65hiy6pfydnBKQ
+
+### Seller 1
+GET localhost:8080/api/test
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk3ODYxMTUwLCJleHAiOjE2OTc4NjQ3NTAsInJvbGUiOiJTRUxMRVIifQ.0KlPMgGoXqDQYQZ2our9CLB08ZzYiGrEKK6MfM0QAPzH7NCdBJHgAq8-PBN3nZdEyAziCbqFxVT4b_M26fDZhg
