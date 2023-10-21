@@ -2,6 +2,7 @@ package com.waaproject.waaprojectbackend.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Auction {
@@ -25,7 +27,7 @@ public class Auction {
     private LocalDateTime bidDueDateTime;
     private LocalDate payDate;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "auction_id")
     private List<Bid> bids;
 }

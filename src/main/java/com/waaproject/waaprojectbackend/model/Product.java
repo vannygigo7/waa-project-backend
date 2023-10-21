@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,18 +25,18 @@ public class Product {
     @NotBlank(message = "title is required")
     private String title;
     private String description;
-    private boolean isRelease;
+    private boolean released;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "category_product",
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Seller seller;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Auction auction;
 
 }

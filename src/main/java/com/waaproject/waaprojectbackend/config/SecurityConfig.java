@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
                         .requestMatchers("/api/test").hasAnyRole(Role.USER.getName(), Role.SELLER.getName())
                         .requestMatchers("/user/api/**").hasRole(Role.USER.getName())
-                        .requestMatchers("/seller/api/**").hasRole(Role.SELLER.getName())
+//                        .requestMatchers("/seller/api/**").hasRole(Role.SELLER.getName())
+                        .requestMatchers("/api/v1/sellers/**").hasRole(Role.SELLER.getName())
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return httpSecurity.build();
