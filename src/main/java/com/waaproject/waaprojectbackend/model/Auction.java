@@ -1,5 +1,6 @@
 package com.waaproject.waaprojectbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,11 @@ public class Auction {
     private LocalDateTime bidDueDateTime;
     private LocalDate payDate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "auction_id")
+    @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<Bid> bids;
+
+    @ManyToOne
+    @JoinColumn(name = "winner_id")
+    private Customer winner;
 }

@@ -14,6 +14,7 @@ import com.waaproject.waaprojectbackend.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,11 +164,17 @@ public class ProductServiceImpl implements ProductService {
                 bids.add(Bid.builder()
                         .bidAmount(bidRequest.getBidAmount())
                         .bidDateTime(bidRequest.getBidDateTime())
+                        .auction(auction)
                         .customer(customer).build());
                 return ProductDTO.getProductResponse(productRepository.save(product));
             }
         } catch (NotFoundException e) {
             throw e;
         }
+    }
+
+    @Override
+    public List<Product> findByReleasedTrueAndAuctionWinnerIsNullAndAuctionBidDueDateTimeBefore(LocalDateTime bidDueDateTime) {
+        return productRepository.findByReleasedTrueAndAuctionWinnerIsNullAndAuctionBidDueDateTimeBefore(bidDueDateTime);
     }
 }
