@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface CustomerController {
 
-    List<ProductResponse> getAllProductsByCustomer(long customerId);
+    List<ProductResponse> getAllProductsByCustomer();
 
-    ProductResponse bidProduct(long customerId, long productId, BidRequest bidRequest);
+    ProductResponse bidProduct(long productId, BidRequest bidRequest);
 
 }

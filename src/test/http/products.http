@@ -1,5 +1,6 @@
 ### get all auctioning products
 GET http://localhost:8080/api/v1/products
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTY5ODAwMjI2NywiZXhwIjoxNjk4MDA1ODY3LCJyb2xlIjoiVVNFUiJ9.xfuuAhwzfDaRgbK2DzX-95EzYQ3kTN6YgmASNelIUsVXFtFHK000y5x_t_HEAqw1E9soczYR9YyqIt0t7IHCfw
 
 
 ### get all auctioning products search by name
