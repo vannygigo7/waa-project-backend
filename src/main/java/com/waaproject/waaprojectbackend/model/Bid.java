@@ -1,5 +1,6 @@
 package com.waaproject.waaprojectbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +24,8 @@ public class Bid {
 
     @ManyToOne
     private Customer customer;
+
+    @ManyToOne
+    @JsonBackReference
+    private Auction auction;
 }

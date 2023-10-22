@@ -3,7 +3,9 @@ package com.waaproject.waaprojectbackend.service;
 import com.waaproject.waaprojectbackend.dto.request.BidRequest;
 import com.waaproject.waaprojectbackend.dto.request.ProductRequest;
 import com.waaproject.waaprojectbackend.dto.response.ProductResponse;
+import com.waaproject.waaprojectbackend.model.Product;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProductService {
@@ -25,4 +27,6 @@ public interface ProductService {
     ProductResponse deleteUnreleasedProductByIdBySeller(long sellerId, long productId);
 
     ProductResponse bidProduct(long customerId, long productId, BidRequest bidRequest);
+
+    List<Product> findByReleasedTrueAndAuctionWinnerIsNullAndAuctionBidDueDateTimeBefore(LocalDateTime bidDueDateTime);
 }
