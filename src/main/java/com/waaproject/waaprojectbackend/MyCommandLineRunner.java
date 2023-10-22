@@ -65,6 +65,26 @@ public class MyCommandLineRunner implements CommandLineRunner {
         Category iPhone = new Category();
         iPhone.setName("iPhone");
         categoryRepository.save(iPhone);
+
+        User customer1 = new Customer();
+        customer1.setEmail("customer1@example.com");
+        customer1.setPassword(passwordEncoder.encode("password"));
+        customer1.setRoles(Set.of(userRole));
+        Wallet w1 = new Wallet();
+        w1.setBalance(1000);
+        w1.setBlockedBalance(0);
+        customer1.setWallet(w1);
+        userService.save(customer1);
+
+        User customer2 = new Customer();
+        customer2.setEmail("customer2@example.com");
+        customer2.setPassword(passwordEncoder.encode("password2"));
+        customer2.setRoles(Set.of(userRole));
+        Wallet w2 = new Wallet();
+        w2.setBalance(1000);
+        w2.setBlockedBalance(0);
+        customer2.setWallet(w2);
+        userService.save(customer2);
     }
 
 }

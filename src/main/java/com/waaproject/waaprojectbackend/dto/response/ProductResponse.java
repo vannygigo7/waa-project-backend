@@ -1,6 +1,5 @@
 package com.waaproject.waaprojectbackend.dto.response;
 
-import com.waaproject.waaprojectbackend.model.Auction;
 import com.waaproject.waaprojectbackend.model.Category;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +16,7 @@ public class ProductResponse {
     private List<Category> categories;
     private boolean released;
 
-    private Auction auction;
+    private AuctionResponse auction;
 
     private long sellerId;
 

@@ -17,8 +17,6 @@ public class Wallet {
     private double balance;
     private double blockedBalance;
 
-    @OneToOne
-    private User user;
 }
 
 

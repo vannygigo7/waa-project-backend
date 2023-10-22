@@ -1,5 +1,6 @@
 package com.waaproject.waaprojectbackend.service;
 
+import com.waaproject.waaprojectbackend.dto.request.BidRequest;
 import com.waaproject.waaprojectbackend.dto.request.ProductRequest;
 import com.waaproject.waaprojectbackend.dto.response.ProductResponse;
 
@@ -17,11 +18,11 @@ public interface ProductService {
 
 //    List<ProductResponse> getAllUnreleasedProductsBySeller(long sellerId);
 
-    ProductResponse getProductById(long productId) throws Exception;
+    ProductResponse getProductById(long productId);
 
     ProductResponse updateUnreleasedProductByIdBySeller(long sellerId, long productId, ProductRequest updatedProductRequest);
 
     ProductResponse deleteUnreleasedProductByIdBySeller(long sellerId, long productId);
 
-
+    ProductResponse bidProduct(long customerId, long productId, BidRequest bidRequest);
 }
