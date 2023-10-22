@@ -6,24 +6,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Bid {
+public class AuctionDeposit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private double bidAmount;
-    private LocalDateTime bidDateTime;
-
-    @ManyToOne
-    private Customer customer;
+    private double depositAmount;
 
     @ManyToOne
     private Auction auction;
+    @ManyToOne
+    private Customer customer;
+
 }

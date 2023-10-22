@@ -27,7 +27,6 @@ public class Auction {
     private LocalDateTime bidDueDateTime;
     private LocalDate payDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "auction_id")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "auction")
     private List<Bid> bids;
 }

@@ -45,3 +45,13 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsI
 GET localhost:8080/api/test
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk3ODYxMTUwLCJleHAiOjE2OTc4NjQ3NTAsInJvbGUiOiJTRUxMRVIifQ.0KlPMgGoXqDQYQZ2our9CLB08ZzYiGrEKK6MfM0QAPzH7NCdBJHgAq8-PBN3nZdEyAziCbqFxVT4b_M26fDZhg
+
+### Create Bidding
+POST localhost:8080/user/api/bidding
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTY5NzkyNDgyNSwiZXhwIjoxNjk3OTI4NDI1LCJyb2xlIjoiVVNFUiJ9.LkIwy1TfyJBqZwMeo-GVrY4hxqLn4UMHhlRy93w-OuckeSoW1i-XSxWBYRNd3iY-HC1mbvAbKgH5W-ew1_RoyA
+
+{
+  "auction_id": 1,
+  "bid_amount": 1010
+}

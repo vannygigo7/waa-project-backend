@@ -3,6 +3,7 @@ package com.waaproject.waaprojectbackend;
 import com.waaproject.waaprojectbackend.constant.Profile;
 import com.waaproject.waaprojectbackend.model.*;
 import com.waaproject.waaprojectbackend.repository.CategoryRepository;
+import com.waaproject.waaprojectbackend.service.AuctionService;
 import com.waaproject.waaprojectbackend.service.RoleService;
 import com.waaproject.waaprojectbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Component
@@ -27,6 +30,8 @@ public class MyCommandLineRunner implements CommandLineRunner {
     private UserService userService;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private AuctionService auctionService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -65,6 +70,15 @@ public class MyCommandLineRunner implements CommandLineRunner {
         Category iPhone = new Category();
         iPhone.setName("iPhone");
         categoryRepository.save(iPhone);
+
+        Auction auction = new Auction();
+        auction.setHighestPrice(1000D);
+        auction.setStartPrice(100);
+        auction.setDepositAmount(10);
+        auction.setBidDueDateTime(LocalDateTime.of(2023, 10, 30, 0, 0));
+        auction.setPayDate(LocalDate.of(2023, 10, 30));
+        auctionService.save(auction);
+
     }
 
 }
