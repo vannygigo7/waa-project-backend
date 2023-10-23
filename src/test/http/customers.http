@@ -9,7 +9,7 @@ Content-Type: application/json
 
 
 ### bid a released product
-POST http://localhost:8080/api/v1/customers/products/1
+POST http://localhost:8080/api/customer/v1/products/1
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXN0b21lcjFAZXhhbXBsZS5jb20iLCJpc3MiOiJNSVUiLCJpYXQiOjE2OTc5MjkyOTEsImV4cCI6MTY5NzkzMjg5MSwicm9sZSI6IlVTRVIifQ.5TudK-a2dENtXk0sCdpVWE9lxTr_ilmbmoXAayKfYdcRXNLPJzDeOeED6Dvf94gUq4byb94Icu6Ox8_Kz5i3BA
 Content-Type: application/json
 
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 
 ### bid a released product
-POST http://localhost:8080/api/v1/customers/products/2
+POST http://localhost:8080/api/customer/v1/products/2
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXN0b21lcjJAZXhhbXBsZS5jb20iLCJpc3MiOiJNSVUiLCJpYXQiOjE2OTc5MjkzODIsImV4cCI6MTY5NzkzMjk4Miwicm9sZSI6IlVTRVIifQ.15GhafZT_tKruhPK-6vDxb34ZrLkJrMWCnghPbDAewXr7R2T6b-mcQ_m3cpj2D_E69E9A0G1Oa1-UbEu3oGjQw
 Content-Type: application/json
 
@@ -31,10 +31,10 @@ Content-Type: application/json
 
 
 ### get customer's auctioned
-GET http://localhost:8080/api/v1/customers/products
+GET http://localhost:8080/api/customer/v1/products
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXN0b21lcjFAZXhhbXBsZS5jb20iLCJpc3MiOiJNSVUiLCJpYXQiOjE2OTc5MjkyOTEsImV4cCI6MTY5NzkzMjg5MSwicm9sZSI6IlVTRVIifQ.5TudK-a2dENtXk0sCdpVWE9lxTr_ilmbmoXAayKfYdcRXNLPJzDeOeED6Dvf94gUq4byb94Icu6Ox8_Kz5i3BA
 
 
 ### get customer's auctioned
-GET http://localhost:8080/api/v1/customers/products
+GET http://localhost:8080/api/customer/v1/products
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXN0b21lcjJAZXhhbXBsZS5jb20iLCJpc3MiOiJNSVUiLCJpYXQiOjE2OTc5MjkzODIsImV4cCI6MTY5NzkzMjk4Miwicm9sZSI6IlVTRVIifQ.15GhafZT_tKruhPK-6vDxb34ZrLkJrMWCnghPbDAewXr7R2T6b-mcQ_m3cpj2D_E69E9A0G1Oa1-UbEu3oGjQw

@@ -34,11 +34,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
-                        .requestMatchers("/api/test").hasAnyRole(Role.USER.getName(), Role.SELLER.getName())
-//                        .requestMatchers("/user/api/**").hasRole(Role.USER.getName())
-                        .requestMatchers("/api/v1/customers/**").hasRole(Role.USER.getName())
-//                        .requestMatchers("/seller/api/**").hasRole(Role.SELLER.getName())
-                        .requestMatchers("/api/v1/sellers/**").hasRole(Role.SELLER.getName())
+                        .requestMatchers("/api/customer/v1/**").hasRole(Role.USER.getName())
+                        .requestMatchers("/api/seller/v1/**").hasRole(Role.SELLER.getName())
+                        .requestMatchers("/api/v1/**").hasAnyRole(Role.USER.getName(), Role.SELLER.getName())
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return httpSecurity.build();
