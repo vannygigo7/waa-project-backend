@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface SellerController {
 
-    ProductResponse addNewProduct(long sellerId, ProductRequest productRequest);
+    ProductResponse addNewProduct(ProductRequest productRequest);
 
-    List<ProductResponse> getAllProductsBySeller(long sellerId, boolean released);
+    List<ProductResponse> getAllProductsBySeller(boolean released);
 
-    ProductResponse updateUnreleasedProductByIdBySeller(long sellerId, long productId, ProductRequest updatedProductRequest);
+    ProductResponse updateUnreleasedProductByIdBySeller(long productId, ProductRequest updatedProductRequest);
 
-    ProductResponse deleteUnreleasedProductByIdBySeller(long sellerId, long productId);
+    ProductResponse deleteUnreleasedProductByIdBySeller(long productId);
 
 }

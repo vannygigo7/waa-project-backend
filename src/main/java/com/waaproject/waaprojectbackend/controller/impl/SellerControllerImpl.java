@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/sellers/{sellerId}/products")
+//@RequestMapping("/api/v1/sellers/{sellerId}/products")
+@RequestMapping("/api/v1/sellers/products")
 @RequiredArgsConstructor
 public class SellerControllerImpl implements SellerController {
 
@@ -21,36 +22,38 @@ public class SellerControllerImpl implements SellerController {
 
     @Override
     @PostMapping
-    public ProductResponse addNewProduct(@PathVariable long sellerId, @RequestBody ProductRequest productRequest) {
-        matchTokenWithSellerId(sellerId);
+    public ProductResponse addNewProduct(@RequestBody ProductRequest productRequest) {
+        long sellerId = matchTokenWithSellerId();
         return productService.addNewProduct(sellerId, productRequest);
     }
 
     @Override
     @GetMapping
-    public List<ProductResponse> getAllProductsBySeller(@PathVariable long sellerId, @RequestParam boolean released) {
-        matchTokenWithSellerId(sellerId);
+    public List<ProductResponse> getAllProductsBySeller(@RequestParam boolean released) {
+        long sellerId = matchTokenWithSellerId();
         return productService.getAllProductsBySeller(sellerId, released);
     }
 
     @Override
     @PutMapping("/{productId}")
-    public ProductResponse updateUnreleasedProductByIdBySeller(@PathVariable long sellerId, @PathVariable long productId, @RequestBody ProductRequest updatedProductRequest) {
-        matchTokenWithSellerId(sellerId);
+    public ProductResponse updateUnreleasedProductByIdBySeller(@PathVariable long productId, @RequestBody ProductRequest updatedProductRequest) {
+        long sellerId = matchTokenWithSellerId();
         return productService.updateUnreleasedProductByIdBySeller(sellerId, productId, updatedProductRequest);
     }
 
     @Override
     @DeleteMapping("/{productId}")
-    public ProductResponse deleteUnreleasedProductByIdBySeller(@PathVariable long sellerId, @PathVariable long productId) {
-        matchTokenWithSellerId(sellerId);
+    public ProductResponse deleteUnreleasedProductByIdBySeller(@PathVariable long productId) {
+        long sellerId = matchTokenWithSellerId();
         return productService.deleteUnreleasedProductByIdBySeller(sellerId, productId);
     }
 
-    private void matchTokenWithSellerId(long sellerId) {
+    private long matchTokenWithSellerId() {
         Seller seller = UserContextUtil.getSeller();
-        if (seller.getId() != sellerId) {
-            throw new UnauthorizedException("Invalid seller id " + sellerId);
+        if (seller == null) {
+            throw new UnauthorizedException("Valid token required");
+        } else {
+            return seller.getId();
         }
     }
 }

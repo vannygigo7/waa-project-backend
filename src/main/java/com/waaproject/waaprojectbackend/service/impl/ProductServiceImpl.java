@@ -56,9 +56,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> getAllAuctioningProducts(String name) {
         if (name != null && name.isEmpty()) {
-            return ProductDTO.getProductResponses(productRepository.findProductsByTitleContaining(name));
+            return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndTitleContaining(name));
         } else {
             return ProductDTO.getProductResponses(productRepository.findProductsByReleased(true));
+        }
+    }
+
+    @Override
+    public List<ProductResponse> getAllAuctioningProductsNotBySeller(long sellerId, String name) {
+        if (name != null && name.isEmpty()) {
+            return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndSellerIdNotAndTitleContaining(sellerId, name));
+        } else {
+            return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndSellerIdNot(sellerId));
         }
     }
 
@@ -87,6 +96,7 @@ public class ProductServiceImpl implements ProductService {
             Product oldProduct = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product " + productId + " not found"));
             System.out.println(oldProduct);
             if (!oldProduct.isReleased() && oldProduct.getSeller().getId() == sellerId) {
+                //update auction
                 Auction auction = oldProduct.getAuction();
                 auction.setStartPrice(updatedProductRequest.getStartPrice());
                 auction.setDepositAmount(updatedProductRequest.getDepositAmount());
@@ -94,16 +104,18 @@ public class ProductServiceImpl implements ProductService {
                 auction.setBidDueDateTime(updatedProductRequest.getBidDueDateTime());
                 auction.setPayDate(updatedProductRequest.getPayDate());
 
-                List<Category> categories = updatedProductRequest.getCategories().stream()
-                        .map(category -> categoryRepository.findByName(category.getName()))
-                        .toList();
+                //update categories
+                List<Category> oldCategories = oldProduct.getCategories();
+                oldCategories.removeAll(oldCategories);
 
+                updatedProductRequest.getCategories().stream()
+                        .map(category -> categoryRepository.findByName(category.getName()))
+                        .forEach(category -> oldCategories.add(category));
+
+                //update product
                 oldProduct.setTitle(updatedProductRequest.getTitle());
                 oldProduct.setDescription(updatedProductRequest.getDescription());
                 oldProduct.setReleased(updatedProductRequest.isReleased());
-//                oldProduct.setCategories(categories); //setCategories causes ImmutableCollection error
-                System.out.println("new product");
-                System.out.println(oldProduct);
                 return ProductDTO.getProductResponse(productRepository.save(oldProduct));
             } else {
                 throw new GenericException("Try to update unreleased product");

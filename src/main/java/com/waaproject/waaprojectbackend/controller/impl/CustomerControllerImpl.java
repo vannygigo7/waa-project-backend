@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/customers/{customerId}/products")
+//@RequestMapping("/api/v1/customers/{customerId}/products")
+@RequestMapping("/api/v1/customers/products")
 @RequiredArgsConstructor
 public class CustomerControllerImpl implements CustomerController {
 
@@ -21,22 +22,24 @@ public class CustomerControllerImpl implements CustomerController {
 
     @Override
     @GetMapping
-    public List<ProductResponse> getAllProductsByCustomer(@PathVariable long customerId) {
-        matchTokenWithCustomerId(customerId);
+    public List<ProductResponse> getAllProductsByCustomer() {
+        long customerId = matchTokenWithCustomerId();
         return productService.getAllProductsByCustomer(customerId);
     }
 
     @Override
     @PostMapping("/{productId}")
-    public ProductResponse bidProduct(@PathVariable long customerId, @PathVariable long productId, @RequestBody BidRequest bidRequest) {
-        matchTokenWithCustomerId(customerId);
+    public ProductResponse bidProduct(@PathVariable long productId, @RequestBody BidRequest bidRequest) {
+        long customerId = matchTokenWithCustomerId();
         return productService.bidProduct(customerId, productId, bidRequest);
     }
 
-    private void matchTokenWithCustomerId(long customerId) {
+    private long matchTokenWithCustomerId() {
         Customer customer = UserContextUtil.getCustomer();
-        if (customer.getId() != customerId) {
-            throw new UnauthorizedException("Invalid customer id " + customerId);
+        if (customer == null) {
+            throw new UnauthorizedException("Valid token required");
+        } else {
+            return customer.getId();
         }
     }
 }

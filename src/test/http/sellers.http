@@ -1,16 +1,16 @@
 ### add new product
-POST http://localhost:8080/api/v1/sellers/2/products
-Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk3OTI5MjAyLCJleHAiOjE2OTc5MzI4MDIsInJvbGUiOiJTRUxMRVIifQ.q2caz4t9_wI_dFOQDLajkzvFSjR7AygPgLCP1BwNNlx18odV0bG-JRzAQGAgfcpqrkZp0mo1L8wFmauH7ioSGg
+POST http://localhost:8080/api/v1/sellers/products
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg
 Content-Type: application/json
 
 {
-  "title": "iPhone 15 pro max",
+  "title": "iPhone 14 pro max",
   "description": "good condition",
   "categories": [
     {"name": "phone"},
     {"name":  "iphone"}
   ],
-  "released": true,
+  "released": false,
   "startPrice": 599,
   "depositAmount": 59.9,
   "bidDueDateTime": "2023-10-22T13:56:39.492",
@@ -19,21 +19,22 @@ Content-Type: application/json
 
 
 ### get all released products by seller id
-GET http://localhost:8080/api/v1/sellers/2/products?released=true
-Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk3OTI5MjAyLCJleHAiOjE2OTc5MzI4MDIsInJvbGUiOiJTRUxMRVIifQ.q2caz4t9_wI_dFOQDLajkzvFSjR7AygPgLCP1BwNNlx18odV0bG-JRzAQGAgfcpqrkZp0mo1L8wFmauH7ioSGg
+GET http://localhost:8080/api/v1/sellers/products?released=true
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg
 
 
 ### get all unreleased products by seller id
-GET http://localhost:8080/api/v1/sellers/2/products?released=false
+GET http://localhost:8080/api/v1/sellers/products?released=false
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk3OTIwNTYyLCJleHAiOjE2OTc5MjQxNjIsInJvbGUiOiJTRUxMRVIifQ.M1-A5P9aQHPWkgaS6jr2zBwPpjRtJRu0hqB9O3Vc-mI3_Nje-GLR8WxErUoUJJMIAxzA9wRbj_Za5LB7Um8pYQ
 
 
 ### update an unreleased product
-PUT http://localhost:8080/api/v1/sellers/2/products/1
+PUT http://localhost:8080/api/v1/sellers/products/1
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg
 Content-Type: application/json
 
 {
-  "title": "iPhone 15 pro max",
+  "title": "iPhone 14 pro max",
   "description": "good condition",
   "categories": [
     {"name":  "iphone"}
@@ -47,5 +48,5 @@ Content-Type: application/json
 
 
 ### delete an unreleased product
-DELETE http://localhost:8080/api/v1/sellers/2/products/1
-Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk3OTIwNTYyLCJleHAiOjE2OTc5MjQxNjIsInJvbGUiOiJTRUxMRVIifQ.M1-A5P9aQHPWkgaS6jr2zBwPpjRtJRu0hqB9O3Vc-mI3_Nje-GLR8WxErUoUJJMIAxzA9wRbj_Za5LB7Um8pYQ
+DELETE http://localhost:8080/api/v1/sellers/products/1
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg

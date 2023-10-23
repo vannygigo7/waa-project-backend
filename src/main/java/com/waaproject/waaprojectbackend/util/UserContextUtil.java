@@ -26,4 +26,8 @@ public class UserContextUtil {
         return (Seller) userService.findByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
+    public static User getUser() {
+        return userService.findByEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
 }

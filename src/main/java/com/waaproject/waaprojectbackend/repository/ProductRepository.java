@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findProductsByTitleContaining(String title);
+    List<Product> findProductsByReleasedTrueAndTitleContaining(String title);
 
     List<Product> findProductsByReleased(boolean released);
 
@@ -19,5 +19,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByAuctionBidsCustomerId(long id); //might not be possible
 
     List<Product> findByReleasedTrueAndAuctionWinnerIsNullAndAuctionBidDueDateTimeBefore(LocalDateTime bidDueDateTime);
+
+    List<Product> findProductsByReleasedTrueAndSellerIdNotAndTitleContaining(long id, String title);
+
+    List<Product> findProductsByReleasedTrueAndSellerIdNot(long id);
+
 
 }
