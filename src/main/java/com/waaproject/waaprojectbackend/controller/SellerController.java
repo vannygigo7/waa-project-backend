@@ -2,8 +2,6 @@ package com.waaproject.waaprojectbackend.controller;
 
 import com.waaproject.waaprojectbackend.dto.request.ProductRequest;
 import com.waaproject.waaprojectbackend.dto.response.ProductResponse;
-import com.waaproject.waaprojectbackend.exception.UnauthorizedException;
-import com.waaproject.waaprojectbackend.model.Seller;
 import com.waaproject.waaprojectbackend.service.ProductService;
 import com.waaproject.waaprojectbackend.util.UserContextUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,34 +19,31 @@ public class SellerController {
 
     @PostMapping
     public ProductResponse addNewProduct(@RequestBody ProductRequest productRequest) {
-        long sellerId = matchTokenWithSellerId();
-        return productService.addNewProduct(sellerId, productRequest);
+        return productService.addNewProduct(getSellerId(), productRequest);
     }
 
     @GetMapping
-    public List<ProductResponse> getAllProductsBySeller(@RequestParam boolean released) {
-        long sellerId = matchTokenWithSellerId();
-        return productService.getAllProductsBySeller(sellerId, released);
+    public List<ProductResponse> getAllProductsBySeller(@RequestParam(required = false) Boolean released) {
+
+        if (released == null) {
+            return productService.findProductsBySellerId(getSellerId());
+        }
+
+        return productService.findProductsByReleasedAndSellerId(getSellerId(), released);
     }
 
     @PutMapping("/{productId}")
     public ProductResponse updateUnreleasedProductByIdBySeller(@PathVariable long productId, @RequestBody ProductRequest updatedProductRequest) {
-        long sellerId = matchTokenWithSellerId();
-        return productService.updateUnreleasedProductByIdBySeller(sellerId, productId, updatedProductRequest);
+        return productService.updateUnreleasedProductByIdBySeller(getSellerId(), productId, updatedProductRequest);
     }
 
     @DeleteMapping("/{productId}")
     public ProductResponse deleteUnreleasedProductByIdBySeller(@PathVariable long productId) {
-        long sellerId = matchTokenWithSellerId();
-        return productService.deleteUnreleasedProductByIdBySeller(sellerId, productId);
+        return productService.deleteUnreleasedProductByIdBySeller(getSellerId(), productId);
     }
 
-    private long matchTokenWithSellerId() {
-        Seller seller = UserContextUtil.getSeller();
-        if (seller == null) {
-            throw new UnauthorizedException("Valid token required");
-        } else {
-            return seller.getId();
-        }
+    private long getSellerId() {
+        return UserContextUtil.getSeller().getId();
     }
+
 }

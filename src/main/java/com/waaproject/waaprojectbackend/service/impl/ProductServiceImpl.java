@@ -72,7 +72,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> getAllProductsBySeller(long sellerId, boolean released) {
+    public List<ProductResponse> findProductsBySellerId(long sellerId) {
+        return ProductDTO.getProductResponses(productRepository.findProductsBySellerId(sellerId));
+    }
+
+    @Override
+    public List<ProductResponse> findProductsByReleasedAndSellerId(long sellerId, boolean released) {
         return ProductDTO.getProductResponses(productRepository.findProductsByReleasedAndSellerId(released, sellerId));
     }
 

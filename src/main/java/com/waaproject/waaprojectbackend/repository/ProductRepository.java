@@ -15,6 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByReleased(boolean released);
 
     List<Product> findProductsByReleasedAndSellerId(boolean released, long id);
+    List<Product> findProductsBySellerId(long sellerId);
 
     List<Product> findProductsByAuctionBidsCustomerId(long id); //might not be possible
 

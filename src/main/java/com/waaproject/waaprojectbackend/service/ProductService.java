@@ -16,7 +16,9 @@ public interface ProductService {
 
     List<ProductResponse> getAllAuctioningProductsNotBySeller(long sellerId, String name);
 
-    List<ProductResponse> getAllProductsBySeller(long sellerId, boolean released);
+    List<ProductResponse> findProductsBySellerId(long sellerId);
+
+    List<ProductResponse> findProductsByReleasedAndSellerId(long sellerId, boolean released);
 
     List<ProductResponse> getAllProductsByCustomer(long customerId);
 
