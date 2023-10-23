@@ -1,6 +1,6 @@
 ### add new product
-POST http://localhost:8080/api/v1/sellers/products
-Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg
+POST http://localhost:8080/api/seller/v1/products
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDk4NDAyLCJleHAiOjE2OTgxMDIwMDIsInJvbGUiOiJTRUxMRVIifQ.1ScZLlSAnugCJTyG0zeXKpJla7WsL1K1btCfFzroAbhsyKG7kaGSsDWj_Moe8L1IQdsP5LUHDuyHx5kj77DBlg
 Content-Type: application/json
 
 {
@@ -19,17 +19,17 @@ Content-Type: application/json
 
 
 ### get all released products by seller id
-GET http://localhost:8080/api/v1/sellers/products?released=true
+GET http://localhost:8080/api/seller/v1/products?released=true
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg
 
 
 ### get all unreleased products by seller id
-GET http://localhost:8080/api/v1/sellers/products?released=false
+GET http://localhost:8080/api/seller/v1/products?released=false
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk3OTIwNTYyLCJleHAiOjE2OTc5MjQxNjIsInJvbGUiOiJTRUxMRVIifQ.M1-A5P9aQHPWkgaS6jr2zBwPpjRtJRu0hqB9O3Vc-mI3_Nje-GLR8WxErUoUJJMIAxzA9wRbj_Za5LB7Um8pYQ
 
 
 ### update an unreleased product
-PUT http://localhost:8080/api/v1/sellers/products/1
+PUT http://localhost:8080/api/seller/v1/products/1
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg
 Content-Type: application/json
 
@@ -48,5 +48,5 @@ Content-Type: application/json
 
 
 ### delete an unreleased product
-DELETE http://localhost:8080/api/v1/sellers/products/1
+DELETE http://localhost:8080/api/seller/v1/products/1
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg
