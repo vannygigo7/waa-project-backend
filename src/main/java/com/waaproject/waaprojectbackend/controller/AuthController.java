@@ -21,7 +21,7 @@ import com.waaproject.waaprojectbackend.util.JwtTokenUtil;
 import java.util.Set;
 
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping({"/auth", "/api/auth"})
 @RestController
 public class AuthController {
 
