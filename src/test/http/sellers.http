@@ -11,7 +11,7 @@ Content-Type: application/json
     {"name": "phone"},
     {"name":  "iphone"}
   ],
-  "released": false,
+  "released": true,
   "startPrice": 599,
   "depositAmount": 59.9,
   "bidDueDateTime": "2023-10-22T13:56:39.492",

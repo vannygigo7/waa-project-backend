@@ -23,8 +23,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+    // TODO: change to UserService
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    // TODO: change to CategoryService
     private final CategoryRepository categoryRepository;
 
     @Override

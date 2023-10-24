@@ -25,6 +25,13 @@ public class AuctionEndScheduledTask {
 
             Auction auction = product.getAuction();
             Bid bid = bidService.findByHighestBidByAuctionId(auction.getId());
+
+            if (bid == null) {
+                System.out.println("There is no bid for auction : " + auction.getId());
+                return;
+            }
+
+            // TODO: wrong logic
             Customer winner = bid.getCustomer();
             Wallet wallet = winner.getWallet();
 

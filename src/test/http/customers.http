@@ -18,8 +18,8 @@ Content-Type: application/json
 }
 
 ### bid a released product
-POST http://localhost:8080/api/customer/v1/products/2
-Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXN0b21lcjJAZXhhbXBsZS5jb20iLCJpc3MiOiJNSVUiLCJpYXQiOjE2OTc5MjkzODIsImV4cCI6MTY5NzkzMjk4Miwicm9sZSI6IlVTRVIifQ.15GhafZT_tKruhPK-6vDxb34ZrLkJrMWCnghPbDAewXr7R2T6b-mcQ_m3cpj2D_E69E9A0G1Oa1-UbEu3oGjQw
+POST http://localhost:8080/api/customer/v1/products/3
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTY5ODExNDk0NywiZXhwIjoxNjk4NDc0OTQ3LCJyb2xlIjoiVVNFUiJ9.EMVXuXvC2xkxMy_tNfsEbp2h6fcKJnADOd5md0oOhKauiQDl_W9hmBZMu7LBWnMx4aNV4njvvHNcadERaTnj9w
 Content-Type: application/json
 
 {
