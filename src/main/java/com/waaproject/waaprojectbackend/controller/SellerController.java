@@ -32,6 +32,11 @@ public class SellerController {
         return productService.findProductsByReleasedAndSellerId(getSellerId(), released);
     }
 
+    @GetMapping("/{productId}")
+    public ProductResponse getProductById(@PathVariable long productId) {
+        return productService.getProductById(productId);
+    }
+
     @PutMapping("/{productId}")
     public ProductResponse updateUnreleasedProductByIdBySeller(@PathVariable long productId, @RequestBody ProductRequest updatedProductRequest) {
         return productService.updateUnreleasedProductByIdBySeller(getSellerId(), productId, updatedProductRequest);

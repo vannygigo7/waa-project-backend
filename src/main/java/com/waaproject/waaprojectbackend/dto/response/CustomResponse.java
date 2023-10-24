@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CustomResponse<T> {
-    @JsonProperty("status_code")
+//    @JsonProperty("status_code")
     private int statusCode;
     private String message;
     private T data;
