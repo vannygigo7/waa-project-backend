@@ -62,8 +62,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getAllAuctioningProducts(String name) {
-        if (name != null && name.isEmpty()) {
-            return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndTitleContaining(name));
+        if (name != null && !name.isEmpty()) {
+//            String iLikeTitle = "%" + name + "%";
+            return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndTitleContainingIgnoreCase(name));
         } else {
             return ProductDTO.getProductResponses(productRepository.findProductsByReleased(true));
         }

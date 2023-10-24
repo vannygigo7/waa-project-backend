@@ -21,14 +21,10 @@ public class ProductController {
     @GetMapping
     public List<ProductResponse> getAllAuctioningProducts(@RequestParam(required = false) String name) {
         User user = UserContextUtil.getUser();
-        if (user != null) {
-            if (user.getRoles().stream().anyMatch(role -> role.getName().equals(Role.USER.getName()))) {
-                return productService.getAllAuctioningProducts(name);
-            } else {
-                return productService.getAllAuctioningProductsNotBySeller(user.getId(), name);
-            }
+        if (user.getRoles().stream().anyMatch(role -> role.getName().equals(Role.USER.getName()))) {
+            return productService.getAllAuctioningProducts(name);
         } else {
-            throw new UnauthorizedException("Valid token required");
+            return productService.getAllAuctioningProductsNotBySeller(user.getId(), name);
         }
     }
 

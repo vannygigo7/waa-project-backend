@@ -2,6 +2,7 @@ package com.waaproject.waaprojectbackend.repository;
 
 import com.waaproject.waaprojectbackend.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findProductsByReleasedTrueAndTitleContaining(String title);
+    List<Product> findProductsByReleasedTrueAndTitleContainingIgnoreCase(String title);
 
     List<Product> findProductsByReleased(boolean released);
 
