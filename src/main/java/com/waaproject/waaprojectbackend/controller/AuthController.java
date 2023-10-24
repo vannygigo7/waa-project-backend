@@ -2,6 +2,7 @@ package com.waaproject.waaprojectbackend.controller;
 
 import com.waaproject.waaprojectbackend.dto.request.AuthRequest;
 import com.waaproject.waaprojectbackend.dto.response.AuthResponse;
+import com.waaproject.waaprojectbackend.model.Role;
 import com.waaproject.waaprojectbackend.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.waaproject.waaprojectbackend.util.JwtTokenUtil;
+
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -33,7 +36,8 @@ public class AuthController {
             User u = (User) authentication.getPrincipal();
             String token = jwtTokenUtil.generateToken(u);
             //return token
-            return ResponseEntity.ok(new AuthResponse(u.getEmail(), token));
+            String role = u.getRoles().stream().toList().get(0).getName();
+            return ResponseEntity.ok(new AuthResponse(u.getEmail(), token, role));
         } catch (BadCredentialsException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
