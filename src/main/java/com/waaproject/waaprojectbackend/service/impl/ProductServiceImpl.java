@@ -110,31 +110,32 @@ public class ProductServiceImpl implements ProductService {
                 throw new UnauthorizedException("Not allowed to updated other sellers' product");
             }
 
-            if (!oldProduct.isReleased()) {
-                //update auction
-                Auction auction = oldProduct.getAuction();
-                auction.setStartPrice(updatedProductRequest.getStartPrice());
-                auction.setDepositAmount(updatedProductRequest.getDepositAmount());
-                auction.setHighestBid(updatedProductRequest.getStartPrice());
-                auction.setBidDueDateTime(updatedProductRequest.getBidDueDateTime());
-                auction.setPayDate(updatedProductRequest.getPayDate());
-
-                //update categories
-                List<Category> oldCategories = oldProduct.getCategories();
-                oldCategories.removeAll(oldCategories);
-
-                updatedProductRequest.getCategories().stream()
-                        .map(category -> categoryRepository.findByName(category.getName()))
-                        .forEach(category -> oldCategories.add(category));
-
-                //update product
-                oldProduct.setTitle(updatedProductRequest.getTitle());
-                oldProduct.setDescription(updatedProductRequest.getDescription());
-                oldProduct.setReleased(updatedProductRequest.isReleased());
-                return ProductDTO.getProductResponse(productRepository.save(oldProduct));
-            } else {
-                throw new BadRequestException("Try to update unreleased product");
+            if (oldProduct.isReleased()) {
+                throw new BadRequestException("Try to update released product");
             }
+
+            //update auction
+            Auction auction = oldProduct.getAuction();
+            auction.setStartPrice(updatedProductRequest.getStartPrice());
+            auction.setDepositAmount(updatedProductRequest.getDepositAmount());
+            auction.setHighestBid(updatedProductRequest.getStartPrice());
+            auction.setBidDueDateTime(updatedProductRequest.getBidDueDateTime());
+            auction.setPayDate(updatedProductRequest.getPayDate());
+
+            //update categories
+            List<Category> oldCategories = oldProduct.getCategories();
+            oldCategories.removeAll(oldCategories);
+
+            updatedProductRequest.getCategories().stream()
+                    .map(category -> categoryRepository.findByName(category.getName()))
+                    .forEach(category -> oldCategories.add(category));
+
+            //update product
+            oldProduct.setTitle(updatedProductRequest.getTitle());
+            oldProduct.setDescription(updatedProductRequest.getDescription());
+            oldProduct.setReleased(updatedProductRequest.isReleased());
+            return ProductDTO.getProductResponse(productRepository.save(oldProduct));
+
         } catch (NotFoundException e) {
             throw e;
         } catch (Exception e) {
