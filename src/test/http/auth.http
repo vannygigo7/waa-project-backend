@@ -4,7 +4,10 @@ Content-Type: application/json
 {
   "email": "user1@example.com",
   "password": "password",
-  "role": "USER"
+  "role": "USER",
+  "firstName": "John",
+  "lastName": "Doe",
+  "profileImageUrl": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
 }
 
 ###
@@ -15,7 +18,10 @@ Content-Type: application/json
 {
   "email": "seller1@example.com",
   "password": "password",
-  "role": "USER"
+  "firstName": "Mircle",
+  "lastName": "Jackson",
+  "profileImageUrl": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  "role": "SELLER"
 }
 
 ###
