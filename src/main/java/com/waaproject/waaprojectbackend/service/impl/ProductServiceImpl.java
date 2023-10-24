@@ -6,6 +6,7 @@ import com.waaproject.waaprojectbackend.dto.request.ProductRequest;
 import com.waaproject.waaprojectbackend.dto.response.ProductResponse;
 import com.waaproject.waaprojectbackend.exception.GenericException;
 import com.waaproject.waaprojectbackend.exception.NotFoundException;
+import com.waaproject.waaprojectbackend.exception.UnauthorizedException;
 import com.waaproject.waaprojectbackend.model.*;
 import com.waaproject.waaprojectbackend.repository.CategoryRepository;
 import com.waaproject.waaprojectbackend.repository.ProductRepository;
@@ -100,8 +101,12 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse updateUnreleasedProductByIdBySeller(long sellerId, long productId, ProductRequest updatedProductRequest) {
         try {
             Product oldProduct = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product " + productId + " not found"));
-            System.out.println(oldProduct);
-            if (!oldProduct.isReleased() && oldProduct.getSeller().getId() == sellerId) {
+
+            if (oldProduct.getSeller().getId() != sellerId) {
+                throw new UnauthorizedException("Not allowed to updated other sellers' product");
+            }
+
+            if (!oldProduct.isReleased()) {
                 //update auction
                 Auction auction = oldProduct.getAuction();
                 auction.setStartPrice(updatedProductRequest.getStartPrice());
