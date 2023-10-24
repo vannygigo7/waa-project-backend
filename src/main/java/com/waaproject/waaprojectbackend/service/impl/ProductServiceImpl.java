@@ -41,6 +41,7 @@ public class ProductServiceImpl implements ProductService {
                     .highestBid(productRequest.getStartPrice())
                     .bidDueDateTime(productRequest.getBidDueDateTime())
                     .payDate(productRequest.getPayDate())
+                    .numberOfBidders(0)
                     .bids(new ArrayList<>()).build();
             List<Category> categories = productRequest.getCategories().stream()
                     .map(category -> categoryRepository.findByName(category.getName()))
