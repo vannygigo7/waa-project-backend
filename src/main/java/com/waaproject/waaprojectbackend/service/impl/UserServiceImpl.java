@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.waaproject.waaprojectbackend.model.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -34,6 +35,11 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleService roleService;
+
+    @Override
+    public Optional<User> findById(long id) {
+        return userRepository.findById(id);
+    }
 
     @Override
     public User findByEmail(String email) {

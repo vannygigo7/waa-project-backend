@@ -13,6 +13,7 @@ import com.waaproject.waaprojectbackend.repository.ProductRepository;
 import com.waaproject.waaprojectbackend.repository.UserRepository;
 import com.waaproject.waaprojectbackend.service.BidService;
 import com.waaproject.waaprojectbackend.service.ProductService;
+import com.waaproject.waaprojectbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     // TODO: change to UserService
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ProductRepository productRepository;
     // TODO: change to CategoryService
     private final CategoryRepository categoryRepository;
@@ -34,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse addNewProduct(long sellerId, ProductRequest productRequest) {
         try {
-            Seller seller = (Seller) userRepository.findById(sellerId).orElseThrow(() -> new NotFoundException("Seller " + sellerId + " not found"));
+            Seller seller = (Seller) userService.findById(sellerId).orElseThrow(() -> new NotFoundException("Seller " + sellerId + " not found"));
             Auction auction = Auction.builder()
                     .startPrice(productRequest.getStartPrice())
                     .depositAmount(productRequest.getDepositAmount())
@@ -165,7 +166,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse bidProduct(long customerId, long productId, BidRequest bidRequest) {
         try {
-            Customer customer = (Customer) userRepository.findById(customerId).orElseThrow(() -> new NotFoundException("Customer " + customerId + " not found"));
+            Customer customer = (Customer) userService.findById(customerId).orElseThrow(() -> new NotFoundException("Customer " + customerId + " not found"));
             Wallet wallet = customer.getWallet();
             Product product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException(("Product " + productId + " not found")));
             Auction auction = product.getAuction();
@@ -191,7 +192,7 @@ public class ProductServiceImpl implements ProductService {
                     //deposit the depositAmount
                     wallet.setBlockedBalance(wallet.getBlockedBalance() + auction.getDepositAmount());
                     wallet.setBalance(wallet.getBalance() - auction.getDepositAmount());
-                    userRepository.save(customer);
+                    userService.save(customer);
 
                     Integer currentNumOfBidders = auction.getNumberOfBidders();
                     Integer newNumberOfBidders  = (currentNumOfBidders == null || currentNumOfBidders == 0) ? 1 : (currentNumOfBidders + 1);
