@@ -14,10 +14,8 @@ Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXN0b21lcjFAZXhhbXBsZS5jb
 Content-Type: application/json
 
 {
-  "bidAmount": 800,
-  "bidDateTime": "2023-10-21T13:56:39.492"
+  "bidAmount": 800
 }
-
 
 ### bid a released product
 POST http://localhost:8080/api/customer/v1/products/2

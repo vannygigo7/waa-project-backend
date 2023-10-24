@@ -8,6 +8,5 @@ import java.time.LocalDateTime;
 public class BidRequest {
 
     private double bidAmount;
-    private LocalDateTime bidDateTime;
 
 }

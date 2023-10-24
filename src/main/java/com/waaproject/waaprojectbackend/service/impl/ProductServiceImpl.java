@@ -162,13 +162,14 @@ public class ProductServiceImpl implements ProductService {
             Wallet wallet = customer.getWallet();
             Product product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException(("Product " + productId + " not found")));
             Auction auction = product.getAuction();
+            LocalDateTime now = LocalDateTime.now();
 
             //check conditions for bidding eligibility
             if (!product.isReleased()) {
                 throw new BadRequestException("Try to bid an unreleased product");
             } else if (product.getSeller().getId() == customerId) {
                 throw new BadRequestException("Seller cannot bid their own product");
-            } else if (bidRequest.getBidDateTime().isAfter(auction.getBidDueDateTime())) {
+            } else if (now.isAfter(auction.getBidDueDateTime())) {
                 throw new BadRequestException("Cannot bid after due date");
             } else if (bidRequest.getBidAmount() <= auction.getHighestBid()) {
                 throw new BadRequestException("Bid amount must be higher than current highest amount");
@@ -187,7 +188,7 @@ public class ProductServiceImpl implements ProductService {
                 List<Bid> bids = auction.getBids();
                 bids.add(Bid.builder()
                         .bidAmount(bidRequest.getBidAmount())
-                        .bidDateTime(bidRequest.getBidDateTime())
+                        .bidDateTime(now)
                         .auction(auction)
                         .customer(customer).build());
                 return ProductDTO.getProductResponse(productRepository.save(product));
