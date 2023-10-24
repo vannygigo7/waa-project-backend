@@ -8,10 +8,9 @@ import com.waaproject.waaprojectbackend.exception.BadRequestException;
 import com.waaproject.waaprojectbackend.exception.NotFoundException;
 import com.waaproject.waaprojectbackend.exception.UnauthorizedException;
 import com.waaproject.waaprojectbackend.model.*;
-import com.waaproject.waaprojectbackend.repository.CategoryRepository;
 import com.waaproject.waaprojectbackend.repository.ProductRepository;
-import com.waaproject.waaprojectbackend.repository.UserRepository;
 import com.waaproject.waaprojectbackend.service.BidService;
+import com.waaproject.waaprojectbackend.service.CategoryService;
 import com.waaproject.waaprojectbackend.service.ProductService;
 import com.waaproject.waaprojectbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    // TODO: change to UserService
     private final UserService userService;
     private final ProductRepository productRepository;
-    // TODO: change to CategoryService
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final BidService bidService;
 
     @Override
@@ -45,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
                     .numberOfBidders(0)
                     .bids(new ArrayList<>()).build();
             List<Category> categories = productRequest.getCategories().stream()
-                    .map(category -> categoryRepository.findByName(category.getName()))
+                    .map(category -> categoryService.findByName(category.getName()))
                     .toList();
             Product newProduct = Product.builder()
                     .title(productRequest.getTitle())
@@ -64,7 +61,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> getAllAuctioningProducts(String name) {
         if (name != null && !name.isEmpty()) {
-//            String iLikeTitle = "%" + name + "%";
             return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndTitleContainingIgnoreCase(name));
         } else {
             return ProductDTO.getProductResponses(productRepository.findProductsByReleased(true));
@@ -73,8 +69,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getAllAuctioningProductsNotBySeller(long sellerId, String name) {
-        if (name != null && name.isEmpty()) {
-            return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndSellerIdNotAndTitleContaining(sellerId, name));
+        if (name != null && !name.isEmpty()) {
+            return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndSellerIdNotAndTitleContainingIgnoreCase(sellerId, name));
         } else {
             return ProductDTO.getProductResponses(productRepository.findProductsByReleasedTrueAndSellerIdNot(sellerId));
         }
@@ -130,7 +126,7 @@ public class ProductServiceImpl implements ProductService {
             oldCategories.removeAll(oldCategories);
 
             updatedProductRequest.getCategories().stream()
-                    .map(category -> categoryRepository.findByName(category.getName()))
+                    .map(category -> categoryService.findByName(category.getName()))
                     .forEach(category -> oldCategories.add(category));
 
             //update product
