@@ -18,7 +18,7 @@ public class AuctionResponse {
     private LocalDateTime bidDueDateTime;
     private LocalDate payDate;
     private Boolean isEnd;
-    private Integer numberOfBidders;
+    private int numberOfBidders;
 
     private List<BidResponse> bids;
 }
