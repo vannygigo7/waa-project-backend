@@ -13,6 +13,7 @@ public class ProductRequest {
     private String title;
     private String description;
     private List<Category> categories;
+    private String imageUrl;
     private boolean released;
 
     private double startPrice;

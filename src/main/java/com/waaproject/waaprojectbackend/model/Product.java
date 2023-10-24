@@ -26,6 +26,7 @@ public class Product {
     private String title;
     private String description;
     private boolean released;
+    private String imageUrl;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "category_product",

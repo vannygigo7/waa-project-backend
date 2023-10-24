@@ -1,11 +1,12 @@
 ### add new product
 POST http://localhost:8080/api/seller/v1/products
-Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDk4NDAyLCJleHAiOjE2OTgxMDIwMDIsInJvbGUiOiJTRUxMRVIifQ.1ScZLlSAnugCJTyG0zeXKpJla7WsL1K1btCfFzroAbhsyKG7kaGSsDWj_Moe8L1IQdsP5LUHDuyHx5kj77DBlg
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MTA3NDk4LCJleHAiOjE2OTg0Njc0OTgsInJvbGUiOiJTRUxMRVIifQ.75-Hu9ftGXakpsaN9jGedvm-u6ypsWASBiCMJrWz5uTo0bTSW7CPzJII7n0tf5hQjJKUfaFx6RHyqlaun3nRsQ
 Content-Type: application/json
 
 {
   "title": "iPhone 14 pro max",
   "description": "good condition",
+  "imageUrl": "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
   "categories": [
     {"name": "phone"},
     {"name":  "iphone"}
