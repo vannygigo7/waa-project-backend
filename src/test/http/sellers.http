@@ -58,3 +58,7 @@ Content-Type: application/json
 ### delete an unreleased product
 DELETE http://localhost:8080/api/seller/v1/products/1
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MDAxNjMyLCJleHAiOjE2OTgwMDUyMzIsInJvbGUiOiJTRUxMRVIifQ.vg2qfyhgYuStBjK0n2uRI5s9bwyuI5ylR6pTOncDeDBY4GFaHxp8SlAq6UrSsuR8OuoF45XV8bSgshxKbvPgVg
+
+### Get all Categories
+GET http://localhost:8080/api/seller/v1/categories
+Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWxsZXIxQGV4YW1wbGUuY29tIiwiaXNzIjoiTUlVIiwiaWF0IjoxNjk4MTkwOTIzLCJleHAiOjE2OTg1NTA5MjMsInJvbGUiOiJTRUxMRVIifQ.QhYP3BV6yhPH7wMUD3C0fbZ0nxkUrMOdetxVHsRlhorp9X5Bc4vt29Z06tqVFpN85oXUPIym_y8nrluyNWrvPw
