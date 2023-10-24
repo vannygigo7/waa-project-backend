@@ -4,6 +4,7 @@ import com.waaproject.waaprojectbackend.dto.ProductDTO;
 import com.waaproject.waaprojectbackend.dto.request.BidRequest;
 import com.waaproject.waaprojectbackend.dto.request.ProductRequest;
 import com.waaproject.waaprojectbackend.dto.response.ProductResponse;
+import com.waaproject.waaprojectbackend.exception.BadRequestException;
 import com.waaproject.waaprojectbackend.exception.GenericException;
 import com.waaproject.waaprojectbackend.exception.NotFoundException;
 import com.waaproject.waaprojectbackend.exception.UnauthorizedException;
@@ -141,17 +142,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse deleteUnreleasedProductByIdBySeller(long sellerId, long productId) {
-        try {
-            Product oldProduct = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product " + productId + " not found"));
-            if (!oldProduct.isReleased() && oldProduct.getSeller().getId() == sellerId) {
-                productRepository.deleteById(productId);
-                return ProductDTO.getProductResponse(oldProduct);
-            } else {
-                throw new GenericException("Try to delete unreleased product");
-            }
-        } catch (NotFoundException e) {
-            throw e;
+        Product oldProduct = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product " + productId + " not found"));
+
+        if (oldProduct.isReleased()) {
+            throw new BadRequestException("Try to delete released product");
         }
+
+        if (oldProduct.getSeller().getId() != sellerId) {
+            throw new BadRequestException("Not allowed to delete other sellers' product");
+        }
+
+        productRepository.deleteById(productId);
+        return ProductDTO.getProductResponse(oldProduct);
     }
 
     @Override
