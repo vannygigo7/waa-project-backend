@@ -77,6 +77,9 @@ public class UserServiceImpl implements UserService {
         User user = isCustomer ? new Customer() : new Seller();
         user.setEmail(userRequest.getEmail());
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setFirstName(userRequest.getFirstName());
+        user.setLastName(userRequest.getLastName());
+        user.setProfileImageUrl(userRequest.getProfileImageUrl());
         user.setRoles(
                 Set.of(isCustomer ? roleService.findByName(Role.USER.getName()) : roleService.findByName(Role.SELLER.getName()))
         );
@@ -90,6 +93,9 @@ public class UserServiceImpl implements UserService {
         UserResponse userResponse = new UserResponse();
         userResponse.setEmail(user.getEmail());
         userResponse.setRole(role);
+        userResponse.setFirstName(user.getFirstName());
+        userResponse.setLastName(user.getLastName());
+        userResponse.setProfileImageUrl(user.getProfileImageUrl());
 
         return userResponse;
     }
