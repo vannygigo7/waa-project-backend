@@ -33,6 +33,7 @@ public class ProductDTO {
                 .title(product.getTitle())
                 .description(product.getDescription())
                 .categories(product.getCategories())
+                .imageUrl(product.getImageUrl())
                 .released(product.isReleased())
                 .auction(auctionResponse)
                 .sellerId(product.getSeller().getId())

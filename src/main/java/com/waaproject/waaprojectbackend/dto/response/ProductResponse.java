@@ -13,6 +13,7 @@ public class ProductResponse {
     private long id;
     private String title;
     private String description;
+    private String imageUrl;
     private List<Category> categories;
     private boolean released;
 
