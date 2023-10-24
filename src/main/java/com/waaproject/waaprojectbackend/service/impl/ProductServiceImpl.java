@@ -11,6 +11,7 @@ import com.waaproject.waaprojectbackend.model.*;
 import com.waaproject.waaprojectbackend.repository.CategoryRepository;
 import com.waaproject.waaprojectbackend.repository.ProductRepository;
 import com.waaproject.waaprojectbackend.repository.UserRepository;
+import com.waaproject.waaprojectbackend.service.BidService;
 import com.waaproject.waaprojectbackend.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     // TODO: change to CategoryService
     private final CategoryRepository categoryRepository;
+    private final BidService bidService;
 
     @Override
     public ProductResponse addNewProduct(long sellerId, ProductRequest productRequest) {
@@ -166,6 +168,9 @@ public class ProductServiceImpl implements ProductService {
             Auction auction = product.getAuction();
             LocalDateTime now = LocalDateTime.now();
 
+            boolean isCusHasNeverBidBefore = bidService.findByCustomerIdAndAuctionId(customerId, auction.getId()).isEmpty();
+            boolean isCusHasBidBefore      = !(isCusHasNeverBidBefore);
+
             //check conditions for bidding eligibility
             if (!product.isReleased()) {
                 throw new BadRequestException("Try to bid an unreleased product");
@@ -175,13 +180,16 @@ public class ProductServiceImpl implements ProductService {
                 throw new BadRequestException("Cannot bid after due date");
             } else if (bidRequest.getBidAmount() <= auction.getHighestBid()) {
                 throw new BadRequestException("Bid amount must be higher than current highest amount");
-            } else if (wallet.getBalance() < auction.getDepositAmount()) {
+            } else if (isCusHasNeverBidBefore && wallet.getBalance() < auction.getDepositAmount()) {
                 throw new BadRequestException("Not enough balance to bid");
             } else {
-                //deposit the depositAmount
-                wallet.setBlockedBalance(wallet.getBlockedBalance() + auction.getDepositAmount());
-                wallet.setBalance(wallet.getBalance() - auction.getDepositAmount());
-                userRepository.save(customer);
+
+                if (isCusHasNeverBidBefore) {
+                    //deposit the depositAmount
+                    wallet.setBlockedBalance(wallet.getBlockedBalance() + auction.getDepositAmount());
+                    wallet.setBalance(wallet.getBalance() - auction.getDepositAmount());
+                    userRepository.save(customer);
+                }
 
                 //set highestBid
                 auction.setHighestBid(bidRequest.getBidAmount());

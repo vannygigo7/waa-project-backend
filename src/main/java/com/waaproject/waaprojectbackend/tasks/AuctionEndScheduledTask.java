@@ -28,7 +28,7 @@ public class AuctionEndScheduledTask {
 
             if (bid == null) {
                 System.out.println("There is no bid for auction : " + auction.getId());
-                return;
+                continue;
             }
 
             // TODO: wrong logic

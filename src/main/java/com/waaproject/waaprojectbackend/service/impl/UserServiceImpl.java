@@ -6,10 +6,12 @@ import com.waaproject.waaprojectbackend.dto.response.UserResponse;
 import com.waaproject.waaprojectbackend.exception.DuplicatedUserException;
 import com.waaproject.waaprojectbackend.model.Customer;
 import com.waaproject.waaprojectbackend.model.Seller;
+import com.waaproject.waaprojectbackend.model.Wallet;
 import com.waaproject.waaprojectbackend.repository.UserRepository;
 import com.waaproject.waaprojectbackend.service.RoleService;
 import com.waaproject.waaprojectbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +23,9 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Value("${app.user.default.wallet.amount}")
+    private double defaultWalletAmount;
 
     @Autowired
     private UserRepository userRepository;
@@ -43,6 +48,12 @@ public class UserServiceImpl implements UserService {
     public User save(User user) {
 
         try {
+
+            Wallet w2 = new Wallet();
+            w2.setBalance(1000);
+            w2.setBlockedBalance(0);
+            user.setWallet(w2);
+
             return userRepository.save(user);
         } catch (DataIntegrityViolationException exception) {
             throw new DuplicatedUserException("Duplicated user");
@@ -62,6 +73,11 @@ public class UserServiceImpl implements UserService {
         user.setRoles(
                 Set.of(isCustomer ? roleService.findByName(Role.USER.getName()) : roleService.findByName(Role.SELLER.getName()))
         );
+
+        Wallet wallet = new Wallet();
+        wallet.setBalance(defaultWalletAmount);
+        wallet.setBlockedBalance(0D);
+        user.setWallet(wallet);
 
         user = this.save(user);
         UserResponse userResponse = new UserResponse();
