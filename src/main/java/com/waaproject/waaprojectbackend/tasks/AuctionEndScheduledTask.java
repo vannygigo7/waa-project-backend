@@ -29,7 +29,7 @@ public class AuctionEndScheduledTask {
             try {
                 auctionService.endAuction(product);
             } catch (NoAuctionBiddingException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
