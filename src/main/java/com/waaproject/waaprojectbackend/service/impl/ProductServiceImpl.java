@@ -190,6 +190,10 @@ public class ProductServiceImpl implements ProductService {
                     wallet.setBlockedBalance(wallet.getBlockedBalance() + auction.getDepositAmount());
                     wallet.setBalance(wallet.getBalance() - auction.getDepositAmount());
                     userRepository.save(customer);
+
+                    Integer currentNumOfBidders = auction.getNumberOfBidders();
+                    Integer newNumberOfBidders  = (currentNumOfBidders == null || currentNumOfBidders == 0) ? 1 : (currentNumOfBidders + 1);
+                    auction.setNumberOfBidders(newNumberOfBidders);
                 }
 
                 //set highestBid

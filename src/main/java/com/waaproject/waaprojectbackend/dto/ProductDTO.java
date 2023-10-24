@@ -32,6 +32,7 @@ public class ProductDTO {
                 .payDate(auction.getPayDate())
                 .bids(bidResponses)
                 .isEnd(isAuctionEnd)
+                .numberOfBidders(auction.getNumberOfBidders())
                 .build();
         return ProductResponse.builder()
                 .id(product.getId())

@@ -27,6 +27,7 @@ public class Auction {
 
     private LocalDateTime bidDueDateTime;
     private LocalDate payDate;
+    private Integer numberOfBidders;
 
     @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
