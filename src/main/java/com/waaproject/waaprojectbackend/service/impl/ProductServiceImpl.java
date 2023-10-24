@@ -133,6 +133,7 @@ public class ProductServiceImpl implements ProductService {
             oldProduct.setTitle(updatedProductRequest.getTitle());
             oldProduct.setDescription(updatedProductRequest.getDescription());
             oldProduct.setReleased(updatedProductRequest.isReleased());
+            oldProduct.setImageUrl(updatedProductRequest.getImageUrl());
             return ProductDTO.getProductResponse(productRepository.save(oldProduct));
 
         } catch (NotFoundException e) {
