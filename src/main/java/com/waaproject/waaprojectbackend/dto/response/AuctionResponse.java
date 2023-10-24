@@ -17,10 +17,7 @@ public class AuctionResponse {
     private double highestBid;
     private LocalDateTime bidDueDateTime;
     private LocalDate payDate;
+    private Boolean isEnd;
 
     private List<BidResponse> bids;
-
-    public boolean isEnd() {
-        return LocalDateTime.now().isBefore(this.bidDueDateTime);
-    }
 }

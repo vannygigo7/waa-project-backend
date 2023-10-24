@@ -6,6 +6,7 @@ import com.waaproject.waaprojectbackend.dto.response.ProductResponse;
 import com.waaproject.waaprojectbackend.model.Auction;
 import com.waaproject.waaprojectbackend.model.Product;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProductDTO {
@@ -19,6 +20,9 @@ public class ProductDTO {
                         .customerId(bid.getCustomer().getId()).build())
                 .toList();
         Auction auction = product.getAuction();
+        // if bid due date is before now and product is released, the auction is ended
+        boolean isAuctionEnd = auction.getBidDueDateTime().isBefore(LocalDateTime.now())
+                && product.isReleased();
         AuctionResponse auctionResponse = AuctionResponse.builder()
                 .id(auction.getId())
                 .startPrice(auction.getStartPrice())
@@ -27,6 +31,7 @@ public class ProductDTO {
                 .bidDueDateTime(auction.getBidDueDateTime())
                 .payDate(auction.getPayDate())
                 .bids(bidResponses)
+                .isEnd(isAuctionEnd)
                 .build();
         return ProductResponse.builder()
                 .id(product.getId())
