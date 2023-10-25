@@ -17,7 +17,9 @@ public class ProductDTO {
                         .id(bid.getId())
                         .bidAmount(bid.getBidAmount())
                         .bidDateTime(bid.getBidDateTime())
-                        .customerId(bid.getCustomer().getId()).build())
+                        .customerId(bid.getCustomer().getId())
+                        .customer(UserDTO.getUserResponse(bid.getCustomer()))
+                        .build())
                 .toList();
         Auction auction = product.getAuction();
         // if bid due date is before now and product is released, the auction is ended

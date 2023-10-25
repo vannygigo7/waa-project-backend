@@ -1,5 +1,6 @@
 package com.waaproject.waaprojectbackend.dto.response;
 
+import com.waaproject.waaprojectbackend.model.Customer;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class BidResponse {
     private LocalDateTime bidDateTime;
 
     private long customerId;
+    private UserResponse customer;
 }
