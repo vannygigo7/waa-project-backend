@@ -29,7 +29,7 @@ public class AuthController {
     private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         //authentiate
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
@@ -37,7 +37,17 @@ public class AuthController {
             String token = jwtTokenUtil.generateToken(u);
             //return token
             String role = u.getRoles().stream().toList().get(0).getName();
-            return ResponseEntity.ok(new AuthResponse(u.getEmail(), token, role));
+            return ResponseEntity.ok(
+                    AuthResponse.builder()
+                            .email(u.getEmail())
+                            .accessToken(token)
+                            .role(role)
+                            .firstName(u.getFirstName())
+                            .lastName(u.getLastName())
+                            .profileImageUrl(u.getProfileImageUrl())
+                            .build()
+
+            );
         } catch (BadCredentialsException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
