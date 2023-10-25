@@ -64,9 +64,13 @@ public class MyCommandLineRunner implements CommandLineRunner {
         phone.setName("phone");
         categoryRepository.save(phone);
 
-        Category iPhone = new Category();
-        iPhone.setName("iPhone");
-        categoryRepository.save(iPhone);
+        Category computer = new Category();
+        computer.setName("computer");
+        categoryRepository.save(computer);
+
+        Category car = new Category();
+        car.setName("car");
+        categoryRepository.save(car);
 
         User customer1 = new Customer();
         customer1.setEmail("customer1@example.com");
