@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findProductsByReleasedTrueAndTitleContainingIgnoreCase(String title);
+    List<Product> findProductsByReleasedTrueAndTitleContainingIgnoreCaseAndAuctionBidDueDateTimeAfter(String title, LocalDateTime dateTime);
 
-    List<Product> findProductsByReleased(boolean released);
+    List<Product> findProductsByReleasedAndAuctionBidDueDateTimeAfter(boolean released, LocalDateTime dateTime);
 
     List<Product> findProductsByReleasedAndSellerId(boolean released, long id);
     List<Product> findProductsBySellerId(long sellerId);
