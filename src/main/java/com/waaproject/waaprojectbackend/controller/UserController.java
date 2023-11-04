@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping({"/api/users", "/api/auth"})
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping({"","/register"})
     public UserResponse users(@RequestBody UserRequest userRequest) {
         return userService.save(userRequest);
     }

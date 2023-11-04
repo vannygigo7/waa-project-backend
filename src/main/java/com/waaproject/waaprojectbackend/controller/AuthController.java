@@ -30,7 +30,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
-        //authentiate
+
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
             User u = (User) authentication.getPrincipal();
@@ -39,6 +39,7 @@ public class AuthController {
             String role = u.getRoles().stream().toList().get(0).getName();
             return ResponseEntity.ok(
                     AuthResponse.builder()
+                            .id(u.getId())
                             .email(u.getEmail())
                             .accessToken(token)
                             .role(role)

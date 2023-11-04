@@ -7,6 +7,7 @@ public class UserDTO {
 
     public static UserResponse getUserResponse(Customer customer) {
         return UserResponse.builder()
+                .id(customer.getId())
                 .email(customer.getEmail())
                 .role(customer.getRoles().stream().toList().get(0).getName())
                 .firstName(customer.getFirstName())
